@@ -19,8 +19,37 @@ import {Image} from 'react-native';
 import FooterBar from '../components/FooterBar';
 import {Col, Row, Grid} from 'react-native-easy-grid';
 
-export class Home extends Component {
+class Home extends Component {
+  state = {
+    search: '',
+    checkIn: '',
+    checkOut: '',
+  };
+
+  setDateIn(newDate) {
+    this.setState({checkIn: newDate});
+  }
+
+  setDateOut(newDate) {
+    this.setState({checkOut: newDate});
+  }
+
+  onSearch = () => {
+    this.props.navigation.navigate('SearchRoom', {post: this.state});
+  };
+
   render() {
+    console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
+    function convertDate(inputFormat) {
+      function pad(s) {
+        return s < 10 ? '0' + s : s;
+      }
+      var d = new Date(inputFormat);
+      return [d.getFullYear(), pad(d.getMonth() + 1), pad(d.getDate())].join(
+        '-',
+      );
+    }
+
     return (
       <Container>
         <Header androidStatusBarColor="#3c8af9" style={{display: 'none'}} />
@@ -29,6 +58,7 @@ export class Home extends Component {
           <Item rounded style={{backgroundColor: '#fff', marginVertical: 10}}>
             <Icon name="ios-search" />
             <Input
+              onChangeText={text => this.setState({search: text})}
               placeholder="Kota / Nama penginapan ..."
               style={{padding: 5}}
             />
@@ -41,19 +71,16 @@ export class Home extends Component {
               <Item rounded style={{backgroundColor: '#fff'}}>
                 <Icon active name="ios-calendar" />
                 <DatePicker
-                  defaultDate={new Date(2018, 4, 4)}
-                  minimumDate={new Date(2018, 1, 1)}
-                  maximumDate={new Date(2018, 12, 31)}
-                  locale={'en'}
-                  timeZoneOffsetInMinutes={undefined}
+                  defaultDate={new Date()}
+                  minimumDate={new Date()}
+                  locale={'id'}
+                  timeZoneOffsetInMinutes={+7}
                   modalTransparent={false}
                   animationType={'fade'}
                   androidMode={'default'}
-                  placeHolderText="Select date"
                   textStyle={{color: 'green'}}
                   placeHolderTextStyle={{color: '#333'}}
-                  onDateChange={true}
-                  disabled={false}
+                  onDateChange={txt => this.setDateIn(convertDate(txt))}
                 />
               </Item>
             </Col>
@@ -72,19 +99,19 @@ export class Home extends Component {
                   modalTransparent={false}
                   animationType={'fade'}
                   androidMode={'default'}
-                  placeHolderText="Select date"
                   textStyle={{color: 'green'}}
                   placeHolderTextStyle={{color: '#333'}}
-                  onDateChange={true}
-                  disabled={false}
+                  onDateChange={txt => this.setDateOut(convertDate(txt))}
                 />
               </Item>
             </Col>
           </Grid>
           <Button
+            onPress={() => this.onSearch()}
             rounded
             style={{
               justifyContent: 'center',
+              flex: 1,
               backgroundColor: '#2196F3',
               marginVertical: 20,
             }}>
@@ -142,7 +169,7 @@ export class Home extends Component {
             </Col>
           </Grid>
         </Content>
-        <FooterBar />
+        <FooterBar menu={this.props} home={true} />
       </Container>
     );
   }

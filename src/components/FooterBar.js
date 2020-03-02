@@ -1,25 +1,63 @@
 import React from 'react';
 import {Footer, Text, FooterTab, Button, Badge, Icon} from 'native-base';
 
-const FooterBar = () => {
+const FooterBar = props => {
   return (
     <Footer>
       <FooterTab style={{backgroundColor: '#fff'}}>
-        <Button vertical style={{borderTopColor: '#3c8af9', borderTopWidth: 5}}>
-          <Icon style={{color: '#333'}} name="ios-home" />
-          <Text style={{color: '#333'}}>Kamar</Text>
-        </Button>
-        <Button badge vertical>
-          <Badge>
-            <Text>1</Text>
-          </Badge>
-          <Icon style={{color: '#333'}} name="ios-checkbox-outline" />
-          <Text style={{color: '#333'}}>Pesanan</Text>
-        </Button>
-        <Button vertical>
-          <Icon style={{color: '#333'}} name="ios-contact" />
-          <Text style={{color: '#333'}}>Profil</Text>
-        </Button>
+        {props.home ? (
+          <Button
+            vertical
+            style={{borderTopColor: '#3c8af9', borderTopWidth: 5}}>
+            <Icon style={{color: '#333'}} name="ios-home" />
+            <Text style={{color: '#333'}}>Kamar</Text>
+          </Button>
+        ) : (
+          <Button
+            vertical
+            onPress={() => props.menu.navigation.replace('Home')}>
+            <Icon style={{color: '#333'}} name="ios-home" />
+            <Text style={{color: '#333'}}>Kamar</Text>
+          </Button>
+        )}
+        {props.history ? (
+          <Button
+            badge
+            vertical
+            style={{borderTopColor: '#3c8af9', borderTopWidth: 5}}>
+            <Badge>
+              <Text>1</Text>
+            </Badge>
+            <Icon style={{color: '#333'}} name="ios-checkbox-outline" />
+            <Text style={{color: '#333'}}>Pesanan</Text>
+          </Button>
+        ) : (
+          <Button
+            badge
+            vertical
+            onPress={() => props.menu.navigation.replace('History')}>
+            <Badge>
+              <Text>1</Text>
+            </Badge>
+            <Icon style={{color: '#333'}} name="ios-checkbox-outline" />
+            <Text style={{color: '#333'}}>Pesanan</Text>
+          </Button>
+        )}
+        {props.profile ? (
+          <Button
+            vertical
+            style={{borderTopColor: '#3c8af9', borderTopWidth: 5}}>
+            <Icon style={{color: '#333'}} name="ios-contact" />
+            <Text style={{color: '#333'}}>Profil</Text>
+          </Button>
+        ) : (
+          <Button
+            vertical
+            onPress={() => props.menu.navigation.replace('Profile')}>
+            <Icon style={{color: '#333'}} name="ios-contact" />
+            <Text style={{color: '#333'}}>Profil</Text>
+          </Button>
+        )}
       </FooterTab>
     </Footer>
   );
