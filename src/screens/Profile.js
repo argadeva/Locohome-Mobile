@@ -14,7 +14,7 @@ import {
   Card,
   CardItem,
   Icon,
-  View,
+  Spinner,
   Item,
 } from 'native-base';
 import {
@@ -105,7 +105,7 @@ class Profile extends Component {
       });
     }
     await Axios.patch(
-      `http://18.206.61.46:1000/api/v1/users/${this.state.email}`,
+      `http://18.206.61.46:1000/api/v1/users/update/${this.state.email}`,
       bodyFormData,
       {
         headers: {
@@ -121,10 +121,7 @@ class Profile extends Component {
           [
             {
               text: 'OK',
-              onPress: () =>
-                this.setState({
-                  modalUpdate: false,
-                }),
+              onPress: () => this.updateState(),
             },
           ],
           {cancelable: false},
@@ -142,6 +139,19 @@ class Profile extends Component {
           {cancelable: false},
         );
       });
+  };
+
+  updateState = () => {
+    if (this.state.avatarSource === null) {
+      this.setState({
+        modalUpdate: false,
+      });
+    } else {
+      this.setState({
+        modalUpdate: false,
+        image: this.state.avatarSource,
+      });
+    }
   };
 
   handleChoosePhoto = () => {
@@ -182,93 +192,112 @@ class Profile extends Component {
             <Title style={{alignSelf: 'center'}}>Profile</Title>
           </Body>
         </Header>
-        <Content padder>
-          {this.state.image === null ? (
-            <Thumbnail
-              large
-              style={{margin: 20, alignSelf: 'center'}}
-              source={profile}
-            />
-          ) : null}
-          {this.state.image !== null ? (
-            <Thumbnail
-              large
-              style={{margin: 20, alignSelf: 'center'}}
-              source={this.state.image}
-            />
-          ) : null}
-          <Card>
-            <CardItem bordered>
-              <Icon active name="ios-person" />
-              <Text>
-                {this.state.loading !== true
-                  ? this.state.firstName + ' ' + this.state.lastName
-                  : ''}
-              </Text>
-            </CardItem>
-            <CardItem bordered>
-              <Icon active name="ios-mail" />
-              <Text>{this.state.loading !== true ? this.state.email : ''}</Text>
-            </CardItem>
-            <CardItem bordered>
-              <Icon active name="ios-call" />
-              <Text>
-                {this.state.loading !== true ? this.state.phoneNumber : ''}
-              </Text>
-            </CardItem>
-          </Card>
-
-          <Grid>
-            <Col
-              style={{
-                padding: 20,
-              }}>
-              <Button
-                rounded
-                style={{
-                  justifyContent: 'center',
-                  backgroundColor: '#2196F3',
-                }}
-                onPress={() => {
-                  this.setState({modalUpdate: true});
-                }}>
-                <Text>UPDATE</Text>
-              </Button>
-            </Col>
-            <Col
-              style={{
-                padding: 20,
-              }}>
-              <Button
-                onPress={() => this.logOut()}
-                rounded
-                style={{
-                  justifyContent: 'center',
-                  backgroundColor: '#2196F3',
-                  flex: 1,
-                }}>
-                <Text>LOGOUT</Text>
-              </Button>
-            </Col>
-          </Grid>
-
-          <Card>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('Help')}>
+        {!this.state.loading ? (
+          <Content padder>
+            {this.state.avatarSource === null ? (
+              <>
+                {this.state.image === null ? (
+                  <Thumbnail
+                    large
+                    style={{margin: 20, alignSelf: 'center'}}
+                    source={profile}
+                  />
+                ) : (
+                  <Thumbnail
+                    large
+                    style={{margin: 20, alignSelf: 'center'}}
+                    source={{uri: this.state.image}}
+                  />
+                )}
+              </>
+            ) : (
+              <>
+                {this.state.avatarSource && (
+                  <Thumbnail
+                    large
+                    style={{margin: 20, alignSelf: 'center'}}
+                    source={this.state.avatarSource}
+                  />
+                )}
+              </>
+            )}
+            <Card>
               <CardItem bordered>
-                <Icon active name="ios-help-circle-outline" />
-                <Text>Hubungi Kami</Text>
+                <Icon active name="ios-person" />
+                <Text>
+                  {this.state.loading !== true
+                    ? this.state.firstName + ' ' + this.state.lastName
+                    : ''}
+                </Text>
               </CardItem>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('About')}>
               <CardItem bordered>
-                <Icon active name="ios-heart" />
-                <Text>Tentang Kami</Text>
+                <Icon active name="ios-mail" />
+                <Text>
+                  {this.state.loading !== true ? this.state.email : ''}
+                </Text>
               </CardItem>
-            </TouchableOpacity>
-          </Card>
-        </Content>
+              <CardItem bordered>
+                <Icon active name="ios-call" />
+                <Text>
+                  {this.state.loading !== true ? this.state.phoneNumber : ''}
+                </Text>
+              </CardItem>
+            </Card>
+
+            <Grid>
+              <Col
+                style={{
+                  padding: 20,
+                }}>
+                <Button
+                  rounded
+                  style={{
+                    justifyContent: 'center',
+                    backgroundColor: '#2196F3',
+                  }}
+                  onPress={() => {
+                    this.setState({modalUpdate: true});
+                  }}>
+                  <Text>UPDATE</Text>
+                </Button>
+              </Col>
+              <Col
+                style={{
+                  padding: 20,
+                }}>
+                <Button
+                  onPress={() => this.logOut()}
+                  rounded
+                  style={{
+                    justifyContent: 'center',
+                    backgroundColor: '#2196F3',
+                    flex: 1,
+                  }}>
+                  <Text>LOGOUT</Text>
+                </Button>
+              </Col>
+            </Grid>
+
+            <Card>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('Help')}>
+                <CardItem bordered>
+                  <Icon active name="ios-help-circle-outline" />
+                  <Text>Hubungi Kami</Text>
+                </CardItem>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('About')}>
+                <CardItem bordered>
+                  <Icon active name="ios-heart" />
+                  <Text>Tentang Kami</Text>
+                </CardItem>
+              </TouchableOpacity>
+            </Card>
+          </Content>
+        ) : (
+          <Spinner color="blue" style={{height: 500}} />
+        )}
         <FooterBar menu={this.props} profile={true} />
         {/* -----------------------------------modal update-------------------------------- */}
 
@@ -285,24 +314,36 @@ class Profile extends Component {
             </Text>
 
             <Form>
-              {this.state.image === null ? (
-                <TouchableOpacity onPress={() => this.handleChoosePhoto()}>
-                  <Thumbnail
-                    large
-                    style={{margin: 20, alignSelf: 'center'}}
-                    source={profile}
-                  />
-                </TouchableOpacity>
-              ) : null}
-              {this.state.image !== null ? (
-                <TouchableOpacity onPress={() => this.handleChoosePhoto()}>
-                  <Thumbnail
-                    large
-                    style={{margin: 20, alignSelf: 'center'}}
-                    source={this.state.image}
-                  />
-                </TouchableOpacity>
-              ) : null}
+              <TouchableOpacity onPress={() => this.handleChoosePhoto()}>
+                {this.state.avatarSource === null ? (
+                  <>
+                    {this.state.image === null ? (
+                      <Thumbnail
+                        large
+                        style={{margin: 20, alignSelf: 'center'}}
+                        source={profile}
+                      />
+                    ) : (
+                      <Thumbnail
+                        large
+                        style={{margin: 20, alignSelf: 'center'}}
+                        source={{uri: this.state.image}}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {this.state.avatarSource && (
+                      <Thumbnail
+                        large
+                        style={{margin: 20, alignSelf: 'center'}}
+                        source={this.state.avatarSource}
+                      />
+                    )}
+                  </>
+                )}
+              </TouchableOpacity>
+
               <Label style={{alignSelf: 'center', marginBottom: 10}}>
                 First Name
               </Label>
