@@ -6,9 +6,6 @@ import {
   Text,
   Button,
   Input,
-  List,
-  ListItem,
-  Left,
   Thumbnail,
   Body,
   Form,
@@ -20,12 +17,18 @@ import {
   View,
   Item,
 } from 'native-base';
-import {TouchableOpacity, Modal} from 'react-native';
+import {
+  TouchableOpacity,
+  Modal,
+  Alert,
+  TouchableOpacityBase,
+} from 'react-native';
 import FooterBar from '../components/FooterBar';
 import {Col, Row, Grid} from 'react-native-easy-grid';
 import Axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import Dialog from 'react-native-dialog';
+import profile from '../image/profile.jpg';
+import ImagePicker from 'react-native-image-picker';
 
 class Profile extends Component {
   constructor(props) {
@@ -37,8 +40,10 @@ class Profile extends Component {
       Email: '',
       Password: '',
       PhoneNumber: '',
+      image: null,
       loading: true,
       modalUpdate: false,
+      avatarSource: null,
     };
   }
   removeToken = async () => {
@@ -73,38 +78,94 @@ class Profile extends Component {
       },
     )
       .then(res => {
-        console.log(res.data[0]);
         this.setState({
           firstName: res.data[0].firstName,
           lastName: res.data[0].lastName,
           email: res.data[0].email,
           password: res.data[0].password,
           phoneNumber: res.data[0].phoneNumber,
+          image: res.data[0].image,
           loading: false,
         });
       })
       .catch(err => {});
   };
   updateUsers = async () => {
+    const bodyFormData = new FormData();
+    bodyFormData.append('firstName', this.state.firstName);
+    bodyFormData.append('lastName', this.state.lastName);
+    bodyFormData.append('email', this.state.email);
+    bodyFormData.append('password', this.state.password);
+    bodyFormData.append('phoneNumber', this.state.phoneNumber);
+    if (this.state.avatarSource !== null) {
+      bodyFormData.append('image', {
+        uri: this.state.avatarSource.uri,
+        type: 'image/jpeg',
+        name: this.state.avatarSource.fileName,
+      });
+    }
     await Axios.patch(
       `http://18.206.61.46:1000/api/v1/users/${this.state.email}`,
+      bodyFormData,
       {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        email: this.state.email,
-        password: this.state.password,
-        phoneNumber: this.state.phoneNumber,
-      },
-      {
-        headers: {'x-access-token': await AsyncStorage.getItem('status')},
+        headers: {
+          'content-type': 'multipart/form-data',
+          'x-access-token': await AsyncStorage.getItem('status'),
+        },
       },
     )
       .then(res => {
-        this.setState({
-          modalUpdate: false,
-        });
+        Alert.alert(
+          'Success!',
+          'Update profil berhasil!',
+          [
+            {
+              text: 'OK',
+              onPress: () =>
+                this.setState({
+                  modalUpdate: false,
+                }),
+            },
+          ],
+          {cancelable: false},
+        );
       })
-      .catch(err => {});
+      .catch(err => {
+        Alert.alert(
+          'Gagal!',
+          'Update profil gagal!',
+          [
+            {
+              text: 'Close',
+            },
+          ],
+          {cancelable: false},
+        );
+      });
+  };
+
+  handleChoosePhoto = () => {
+    const options = {
+      title: 'Select Avatar',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    ImagePicker.showImagePicker(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        this.setState({
+          avatarSource: response,
+        });
+      }
+    });
   };
 
   componentDidMount() {
@@ -122,11 +183,20 @@ class Profile extends Component {
           </Body>
         </Header>
         <Content padder>
-          <Thumbnail
-            large
-            style={{margin: 20, alignSelf: 'center'}}
-            source={{uri: 'https://dummyimage.com/500x500/0d15ff/fff'}}
-          />
+          {this.state.image === null ? (
+            <Thumbnail
+              large
+              style={{margin: 20, alignSelf: 'center'}}
+              source={profile}
+            />
+          ) : null}
+          {this.state.image !== null ? (
+            <Thumbnail
+              large
+              style={{margin: 20, alignSelf: 'center'}}
+              source={this.state.image}
+            />
+          ) : null}
           <Card>
             <CardItem bordered>
               <Icon active name="ios-person" />
@@ -215,11 +285,24 @@ class Profile extends Component {
             </Text>
 
             <Form>
-              <Thumbnail
-                large
-                style={{margin: 20, alignSelf: 'center'}}
-                source={{uri: 'https://dummyimage.com/500x500/0d15ff/fff'}}
-              />
+              {this.state.image === null ? (
+                <TouchableOpacity onPress={() => this.handleChoosePhoto()}>
+                  <Thumbnail
+                    large
+                    style={{margin: 20, alignSelf: 'center'}}
+                    source={profile}
+                  />
+                </TouchableOpacity>
+              ) : null}
+              {this.state.image !== null ? (
+                <TouchableOpacity onPress={() => this.handleChoosePhoto()}>
+                  <Thumbnail
+                    large
+                    style={{margin: 20, alignSelf: 'center'}}
+                    source={this.state.image}
+                  />
+                </TouchableOpacity>
+              ) : null}
               <Label style={{alignSelf: 'center', marginBottom: 10}}>
                 First Name
               </Label>
@@ -290,7 +373,7 @@ class Profile extends Component {
               </Item>
             </Form>
 
-            <Grid>
+            <Grid style={{marginBottom: 50}}>
               <Col
                 style={{
                   padding: 20,

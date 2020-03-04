@@ -29,13 +29,18 @@ class OTP extends Component {
   }
 
   onSubmitButton = async token => {
-    console.log(this.state.code);
-    console.log(this.state.OTP);
     if (this.state.code === this.state.OTP) {
       await Axios.patch(
         `http://18.206.61.46:1000/api/v1/users/verification/${token}`,
       ).then(res => {
-        this.props.navigation.navigate('Home');
+        const _storeData = async () => {
+          try {
+            await AsyncStorage.setItem('status', `${token}`);
+          } catch (error) {}
+        };
+        _storeData().then(() => {
+          this.props.navigation.navigate('Home');
+        });
       });
     } else {
       console.log('gagal');
@@ -45,7 +50,7 @@ class OTP extends Component {
   _retrieveData = async () => {
     try {
       const Otp = await AsyncStorage.getItem('OTP');
-      const token = await AsyncStorage.getItem('status');
+      const token = await AsyncStorage.getItem('statuse');
       this.setState({token: token, OTP: Otp});
     } catch (error) {
       // Error retrieving data
@@ -58,7 +63,7 @@ class OTP extends Component {
   render() {
     return (
       <Container>
-        <Header>
+        <Header androidStatusBarColor="#3c8af9">
           <Left>
             <Button
               transparent

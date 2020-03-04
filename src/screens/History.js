@@ -100,8 +100,6 @@ class History extends Component {
   }
 
   render() {
-    console.log(this.state.detailData);
-
     function formatNumber(num) {
       return 'Rp. ' + num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
     }

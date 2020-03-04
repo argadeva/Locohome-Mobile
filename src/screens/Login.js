@@ -12,6 +12,7 @@ import {
   Label,
   Input,
   Button,
+  Header,
 } from 'native-base';
 import logo from '../image/logo.png';
 import Axios from 'axios';
@@ -100,7 +101,7 @@ class Login extends Component {
         const _storeData = async () => {
           try {
             await AsyncStorage.setItem('OTP', `${res.data.OTP}`);
-            await AsyncStorage.setItem('status', `${res.data.token}`);
+            await AsyncStorage.setItem('statuse', `${res.data.token}`);
             await AsyncStorage.setItem('email', `${this.state.regEmail}`);
           } catch (error) {}
         };
@@ -120,6 +121,7 @@ class Login extends Component {
   render() {
     return (
       <Container>
+        <Header androidStatusBarColor="#3c8af9" style={{display: 'none'}} />
         <Content style={{backgroundColor: 'white'}}>
           {this.state.splash === true ? (
             <View style={{marginVertical: '50%'}}>

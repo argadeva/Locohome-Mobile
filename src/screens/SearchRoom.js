@@ -125,14 +125,11 @@ class SearchRoom extends Component {
   }
 
   setCurrentReadOffset = async event => {
-    // Log the current scroll position in the list in pixels
-    // console.log(event.nativeEvent.contentOffset.y);
     let itemHeight = 150;
     let currentOffset = Math.floor(event.nativeEvent.contentOffset.y);
     let currentItemIndex = Math.ceil(currentOffset / itemHeight);
     if (currentItemIndex > this.state.page) {
       await this.setState({page: currentItemIndex, loading: true});
-      console.log(this.state.page);
       await this.props.dispatch(getRoom(this.state)).then(() => {
         if (this.props.ListRoom.searchData.result.length !== 0) {
           this.setState({
@@ -151,8 +148,6 @@ class SearchRoom extends Component {
   };
 
   render() {
-    console.log(this.state.resData);
-
     // console.disableYellowBox = true;
 
     function convertDate(inputFormat) {

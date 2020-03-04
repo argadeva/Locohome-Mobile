@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
-
+import {View, Alert} from 'react-native';
 import {
   Container,
   Header,
@@ -30,8 +29,9 @@ class ForgetPassword extends Component {
     await Axios.patch('http://18.206.61.46:1000/api/v1/users/forgetPassword', {
       email: this.state.email,
     }).then(res => {
-      console.log(res.data);
-      this.props.navigation.navigate('Login');
+      Alert.alert('Success!', 'Silahkan cek email untuk rubah password!', [
+        {text: 'OK', onPress: () => this.props.navigation.navigate('Login')},
+      ]);
     });
   };
 
