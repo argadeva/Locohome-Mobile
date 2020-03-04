@@ -30,6 +30,7 @@ class ForgetPassword extends Component {
     await Axios.patch('http://18.206.61.46:1000/api/v1/users/forgetPassword', {
       email: this.state.email,
     }).then(res => {
+      console.log(res.data);
       this.props.navigation.navigate('Login');
     });
   };
@@ -37,11 +38,11 @@ class ForgetPassword extends Component {
   render() {
     return (
       <Container>
-        <Header>
+        <Header
+          androidStatusBarColor="#3c8af9"
+          style={{backgroundColor: '#3c8af9'}}>
           <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate('Login')}>
+            <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name="arrow-back" />
             </Button>
           </Left>
@@ -63,7 +64,11 @@ class ForgetPassword extends Component {
           <View style={{paddingHorizontal: 80}}>
             <Button
               rounded
-              style={{justifyContent: 'center', flex: 1}}
+              style={{
+                justifyContent: 'center',
+                flex: 1,
+                backgroundColor: '#0373fc',
+              }}
               onPress={() => {
                 this.setState({forgetPassword: true});
                 this.onSubmitButton();

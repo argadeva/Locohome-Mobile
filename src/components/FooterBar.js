@@ -22,23 +22,21 @@ const FooterBar = props => {
         )}
         {props.history ? (
           <Button
-            badge
             vertical
             style={{borderTopColor: '#3c8af9', borderTopWidth: 5}}>
-            <Badge>
+            {/* <Badge>
               <Text>1</Text>
-            </Badge>
+            </Badge> */}
             <Icon style={{color: '#333'}} name="ios-checkbox-outline" />
             <Text style={{color: '#333'}}>Pesanan</Text>
           </Button>
         ) : (
           <Button
-            badge
             vertical
             onPress={() => props.menu.navigation.replace('History')}>
-            <Badge>
+            {/* <Badge>
               <Text>1</Text>
-            </Badge>
+            </Badge> */}
             <Icon style={{color: '#333'}} name="ios-checkbox-outline" />
             <Text style={{color: '#333'}}>Pesanan</Text>
           </Button>

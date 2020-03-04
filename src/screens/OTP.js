@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import Axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   Container,
   Header,
@@ -92,7 +94,12 @@ class OTP extends Component {
             }}
           />
           <View style={{paddingHorizontal: 80}}>
-            <Button rounded style={{justifyContent: 'center'}}>
+            <Button
+              rounded
+              style={{justifyContent: 'center'}}
+              onPress={() => {
+                this.onSubmitButton(this.state.token);
+              }}>
               <Text>Verifikasi</Text>
             </Button>
           </View>

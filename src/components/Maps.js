@@ -6,7 +6,24 @@ class Maps extends Component {
   state = {
     lat: -6.391982,
     long: 106.826729,
+    homeName: '',
+    detailAddress: '',
+    kecamatan: '',
+    kotaKabupaten: '',
+    provinsi: '',
   };
+
+  componentDidMount() {
+    this.setState({
+      lat: parseFloat(this.props.route.params.data.lat),
+      long: parseFloat(this.props.route.params.data.long),
+      homeName: this.props.route.params.data.homeName,
+      detailAddress: this.props.route.params.data.detailAddress,
+      kecamatan: this.props.route.params.data.kecamatan,
+      kotaKabupaten: this.props.route.params.data.kotaKabupaten,
+      provinsi: this.props.route.params.data.provinsi,
+    });
+  }
 
   render() {
     return (
@@ -26,8 +43,16 @@ class Maps extends Component {
               latitude: this.state.lat,
               longitude: this.state.long,
             }}
-            title={'Arkademy Depok'}
-            description={'Tempat Belajar Coding'}
+            title={this.state.homeName}
+            description={
+              this.state.detailAddress +
+              ', ' +
+              this.state.kecamatan +
+              ', ' +
+              this.state.kotaKabupaten +
+              ', ' +
+              this.state.provinsi
+            }
           />
         </MapView>
         <Button

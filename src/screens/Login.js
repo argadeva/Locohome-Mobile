@@ -59,6 +59,8 @@ class Login extends Component {
 
           _storeData();
           this.props.navigation.replace('Home');
+        } else {
+          alert('Email atau Password Salah');
         }
       })
       .catch(err => {
@@ -99,11 +101,19 @@ class Login extends Component {
           try {
             await AsyncStorage.setItem('OTP', `${res.data.OTP}`);
             await AsyncStorage.setItem('status', `${res.data.token}`);
+            await AsyncStorage.setItem('email', `${this.state.regEmail}`);
           } catch (error) {}
         };
         _storeData();
         this.props.navigation.navigate('OTP');
       }
+      this.setState({
+        regFirstName: '',
+        regLastName: '',
+        regEmail: '',
+        regPassword: '',
+        regPhoneNumber: '',
+      });
     });
   };
 
@@ -166,16 +176,32 @@ class Login extends Component {
                         />
                       </Item>
                     </Form>
-                    <Button
-                      rounded
-                      onPress={() => this.onLoginButton()}
-                      style={{
-                        justifyContent: 'center',
-                        marginVertical: 20,
-                        flex: 1,
-                      }}>
-                      <Text>Masuk</Text>
-                    </Button>
+                    {this.state.email.length > 0 &&
+                    this.state.password.length > 0 ? (
+                      <Button
+                        rounded
+                        onPress={() => this.onLoginButton()}
+                        style={{
+                          justifyContent: 'center',
+                          marginVertical: 20,
+                          flex: 1,
+                          backgroundColor: '#0373fc',
+                        }}>
+                        <Text>Masuk</Text>
+                      </Button>
+                    ) : (
+                      <Button
+                        rounded
+                        onPress={() => alert('Email dan Password Kosong')}
+                        style={{
+                          justifyContent: 'center',
+                          marginVertical: 20,
+                          flex: 1,
+                          backgroundColor: '#0373fc',
+                        }}>
+                        <Text>Masuk</Text>
+                      </Button>
+                    )}
                     <Button
                       transparent
                       style={{justifyContent: 'center'}}
@@ -202,9 +228,21 @@ class Login extends Component {
                           style={{padding: 5}}
                           onChangeText={text =>
                             this.setState({regFirstName: text})
-                          }
-                        />
+                          }>
+                          {this.state.regFirstName}
+                        </Input>
                       </Item>
+                      {this.state.regFirstName.length >= 3 ? null : (
+                        <Text
+                          style={{
+                            color: 'red',
+                            fontSize: 10,
+                            marginTop: 5,
+                            textAlign: 'center',
+                          }}>
+                          Minimal 3 Karakter
+                        </Text>
+                      )}
                       <Label style={{alignSelf: 'center', marginVertical: 10}}>
                         Nama Belakang
                       </Label>
@@ -213,29 +251,70 @@ class Login extends Component {
                           style={{padding: 5}}
                           onChangeText={text =>
                             this.setState({regLastName: text})
-                          }
-                        />
+                          }>
+                          {this.state.regLastName}
+                        </Input>
                       </Item>
+                      {this.state.regLastName.length >= 3 ? null : (
+                        <Text
+                          style={{
+                            color: 'red',
+                            fontSize: 10,
+                            marginTop: 5,
+                            textAlign: 'center',
+                          }}>
+                          Minimal 3 Karakter
+                        </Text>
+                      )}
                       <Label style={{alignSelf: 'center', marginVertical: 10}}>
                         No. HP
                       </Label>
                       <Item rounded>
                         <Input
+                          keyboardType="numeric"
                           style={{padding: 5}}
                           onChangeText={text =>
                             this.setState({regPhoneNumber: text})
-                          }
-                        />
+                          }>
+                          {this.state.regPhoneNumber}
+                        </Input>
                       </Item>
+                      {this.state.regPhoneNumber.length >= 10 &&
+                      (this.state.regPhoneNumber.slice(0, 1) == 0 ||
+                        this.state.regPhoneNumber.slice(0, 1) == 6) ? null : (
+                        <Text
+                          style={{
+                            color: 'red',
+                            fontSize: 10,
+                            marginTop: 5,
+                            textAlign: 'center',
+                          }}>
+                          Nomer Telfon tidak Valid
+                        </Text>
+                      )}
                       <Label style={{alignSelf: 'center', marginVertical: 10}}>
                         Email
                       </Label>
                       <Item rounded>
                         <Input
                           style={{padding: 5}}
-                          onChangeText={text => this.setState({regEmail: text})}
-                        />
+                          onChangeText={text =>
+                            this.setState({regEmail: text})
+                          }>
+                          {this.state.regEmail}
+                        </Input>
                       </Item>
+                      {this.state.regEmail.length > 0 ? null : (
+                        <Text
+                          style={{
+                            color: 'red',
+                            fontSize: 10,
+                            marginTop: 5,
+                            textAlign: 'center',
+                          }}>
+                          Email Kosong
+                        </Text>
+                      )}
                       <Label style={{alignSelf: 'center', marginVertical: 10}}>
                         Password
                       </Label>
@@ -245,22 +324,54 @@ class Login extends Component {
                           secureTextEntry={true}
                           onChangeText={text =>
                             this.setState({regPassword: text})
-                          }
-                        />
+                          }>
+                          {this.state.regPassword}
+                        </Input>
                       </Item>
+                      {this.state.regPassword.length >= 3 ? null : (
+                        <Text
+                          style={{
+                            color: 'red',
+                            fontSize: 10,
+                            marginTop: 5,
+                            textAlign: 'center',
+                          }}>
+                          Minimal 3 Karakter
+                        </Text>
+                      )}
                     </Form>
-                    <Button
-                      rounded
-                      onPress={() => {
-                        this.setState({regVerify: true});
-                      }}
-                      style={{
-                        justifyContent: 'center',
-                        marginVertical: 20,
-                        flex: 1,
-                      }}>
-                      <Text>Daftar</Text>
-                    </Button>
+                    {this.state.regFirstName.length >= 3 &&
+                    (this.state.regPhoneNumber.slice(0, 1) == 0 ||
+                      this.state.regPhoneNumber.slice(0, 1) == 6) &&
+                    this.state.regLastName.length >= 3 &&
+                    this.state.regPassword.length >= 3 &&
+                    this.state.regPhoneNumber.length >= 10 &&
+                    this.state.regEmail.length >= 3 ? (
+                      <Button
+                        rounded
+                        onPress={() => {
+                          this.setState({regVerify: true});
+                        }}
+                        style={{
+                          justifyContent: 'center',
+                          marginVertical: 20,
+                          flex: 1,
+                          backgroundColor: '#0373fc',
+                        }}>
+                        <Text>Daftar</Text>
+                      </Button>
+                    ) : (
+                      <Button
+                        rounded
+                        style={{
+                          justifyContent: 'center',
+                          marginVertical: 20,
+                          flex: 1,
+                          backgroundColor: '#0373fc',
+                        }}>
+                        <Text>Daftar</Text>
+                      </Button>
+                    )}
                   </View>
                 </Tab>
               </Tabs>
@@ -290,13 +401,13 @@ class Login extends Component {
                   }}
                 />
               </Dialog.Container>
-              <Dialog.Container visible={this.state.verifyByEmail}>
+              <Dialog.Container visible={this.state.regVerifyByEmail}>
                 <Dialog.Title>Please Check Your Email</Dialog.Title>
                 <Dialog.Button
                   label="Ok"
                   onPress={() => {
                     this.setState({regVerifyByEmail: false});
-                    this.props.navigation.navigate('RegLogin');
+                    this.props.navigation.navigate('Login');
                   }}
                 />
               </Dialog.Container>

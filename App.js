@@ -15,7 +15,6 @@ import Home from './src/screens/Home';
 import SearchRoom from './src/screens/SearchRoom';
 import DetailRoom from './src/components/DetailRoom';
 import History from './src/screens/History';
-import DetailOrder from './src/components/DetailOrder';
 import Profile from './src/screens/Profile';
 import Maps from './src/components/Maps';
 
@@ -39,7 +38,6 @@ const App = () => {
           <Stack.Screen name="SearchRoom" component={SearchRoom} />
           <Stack.Screen name="DetailRoom" component={DetailRoom} />
           <Stack.Screen name="History" component={History} />
-          <Stack.Screen name="DetailOrder" component={DetailOrder} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="Maps" component={Maps} />
           <Stack.Screen name="About" component={About} />
