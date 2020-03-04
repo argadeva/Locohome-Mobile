@@ -180,7 +180,7 @@ export class DetailRoom extends Component {
             backgroundColor="transparent"
             translucent={true}
           />
-          <SliderBox images={this.state.images} />
+          <SliderBox style={{height: 300}} images={this.state.images} />
           <Button
             onPress={() => this.props.navigation.navigate('SearchRoom')}
             transparent
@@ -188,7 +188,7 @@ export class DetailRoom extends Component {
             <Icon style={{color: 'white'}} name="arrow-back" />
           </Button>
           <View style={{padding: 15}}>
-            <H3>{this.state.homeName}</H3>
+            <H3>{this.state.homeName + ' - Kamar A' + this.state.id}</H3>
             <Text style={{fontSize: 12}}>
               {this.state.detailAddress +
                 ', ' +

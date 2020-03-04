@@ -35,11 +35,11 @@ class Profile extends Component {
     super(props);
     this.state = {
       user: [],
-      FirstName: '',
-      LastName: '',
-      Email: '',
-      Password: '',
-      PhoneNumber: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      phoneNumber: '',
       image: null,
       loading: true,
       modalUpdate: false,
@@ -180,6 +180,19 @@ class Profile extends Component {
 
   componentDidMount() {
     this.getUsers();
+    const _storeData = async () => {
+      try {
+        const otp = await AsyncStorage.getItem('OTP');
+        console.log('otp :' + otp);
+        const statuse = await AsyncStorage.getItem('statuse');
+        console.log('statuse :' + statuse);
+        const status = await AsyncStorage.getItem('status');
+        console.log('status :' + status);
+        const email = await AsyncStorage.getItem('email');
+        console.log('email :' + email);
+      } catch (error) {}
+    };
+    _storeData();
   }
 
   render() {

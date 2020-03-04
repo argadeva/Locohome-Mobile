@@ -301,7 +301,7 @@ class SearchRoom extends Component {
                           />
                         </Col>
                         <Col style={{padding: 10}}>
-                          <Text>{data.homeName}</Text>
+                          <Text>{data.homeName + ' - Kamar A' + data.id}</Text>
                           <Item style={{borderBottomWidth: 0, marginTop: 10}}>
                             <Icon name="ios-pin" />
                             <Text>{data.kotaKabupaten}</Text>

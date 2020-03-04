@@ -105,16 +105,17 @@ class Login extends Component {
             await AsyncStorage.setItem('email', `${this.state.regEmail}`);
           } catch (error) {}
         };
-        _storeData();
-        this.props.navigation.navigate('OTP');
+        _storeData().then(() => {
+          this.setState({
+            regFirstName: '',
+            regLastName: '',
+            regEmail: '',
+            regPassword: '',
+            regPhoneNumber: '',
+          });
+          this.props.navigation.navigate('OTP');
+        });
       }
-      this.setState({
-        regFirstName: '',
-        regLastName: '',
-        regEmail: '',
-        regPassword: '',
-        regPhoneNumber: '',
-      });
     });
   };
 

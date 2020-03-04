@@ -35,12 +35,14 @@ class OTP extends Component {
       ).then(res => {
         const _storeData = async () => {
           try {
-            await AsyncStorage.setItem('status', `${token}`);
+            await AsyncStorage.setItem('status', `${this.state.token}`);
           } catch (error) {}
         };
-        _storeData().then(() => {
-          this.props.navigation.navigate('Home');
-        });
+        _storeData();
+
+        setTimeout(() => {
+          this.props.navigation.replace('Home');
+        }, 2000);
       });
     } else {
       console.log('gagal');
@@ -61,6 +63,8 @@ class OTP extends Component {
   }
 
   render() {
+    console.log('OTP' + this.state.token);
+    console.log('OTP S' + this.state.otp);
     return (
       <Container>
         <Header androidStatusBarColor="#3c8af9">
