@@ -1,6 +1,6 @@
 ## Introduction
 
-LocoHome Backend RestFulAPI is a Room Booking App with restful api. The main features are:
+LocoHome Mobile is a Room Booking App with React Native and Redux. The main features are:
 
 - Login and Register with JWT.
 - Forgot Password
@@ -8,12 +8,13 @@ LocoHome Backend RestFulAPI is a Room Booking App with restful api. The main fea
 - Search Room
 - Checkout Booking Room
 - Payment Gateway with Midtrans
+- Maps Marker with Google Maps
 - Booking History
 - Update Profile
 - Add Image with Gallery or Camera
 - Logout
 
-LocoHome Backend RestFulAPI is written in Node Js with Express framework, it uses MySQL as data storage back-end and has a simple but intuitive user interface.
+LocoHome Mobile is written in React Native and Redux, it uses Rest API as data storage back-end.
 
 ## Demo
 
