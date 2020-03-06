@@ -10,6 +10,7 @@ LocoHome Mobile is a Room Booking App with React Native and Redux. The main feat
 - Payment Gateway with Midtrans
 - Maps Marker with Google Maps
 - Booking History
+- Infinite Pagination
 - Update Profile
 - Add Image with Gallery or Camera
 - Logout
