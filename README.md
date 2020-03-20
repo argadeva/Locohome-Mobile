@@ -6,8 +6,6 @@
   <br>
 </h1>
 
-<h4 align="center">LocoHome Mobile is a Room Booking App with React Native and Redux.</h4>
-
 <p align="center">
   <img src="https://img.shields.io/badge/Node.js-v12.14.1-success">
   <img src="https://img.shields.io/badge/ReactNative-v0.61.5-informational">
@@ -15,16 +13,18 @@
   <img src="https://img.shields.io/badge/Redux-v4.0.5-orange">
 </p>
 
-<p align="center">
-  <a href="#feature">Feature</a> •
-  <a href="#demo">Demo</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#release-apk">Release APK</a> •
-  <a href="#related-project ">Related Project</a> •
-  <a href="#contributors">Contributors</a>
-</p>
+## Table of Contents
 
-## Feature
+- [Introduction](#introduction)
+- [Demo](#demo)
+- [How To Install](#how-to-install)
+- [Release APK](#release-apk)
+- [Related Project](#related-project)
+- [Contributors](#contributors)
+
+## Introduction
+
+LocoHome Mobile is a Room Booking App with React Native and Redux. The main features are:
 
 - Login and Register with JWT.
 - Forgot Password
@@ -41,9 +41,11 @@
 
 ## Demo
 
-![demo](https://github.com/argadeva/Locohome-Mobile/raw/master/src/image/demo_locohome.gif)
+<p align="center">
+ <img src="https://github.com/argadeva/Locohome-Mobile/raw/master/src/image/demo_locohome.gif" />
+</p>
 
-## How To Use
+## How To Install
 
 1. Clone this repository
    ```
