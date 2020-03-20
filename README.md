@@ -42,7 +42,9 @@ LocoHome Mobile is a Room Booking App with React Native and Redux. The main feat
 ## Demo
 
 <p align="center">
- <img src="https://github.com/argadeva/Locohome-Mobile/raw/master/src/image/demo_locohome.gif" />
+ <img src="https://github.com/argadeva/Locohome-Mobile/raw/master/demo/login.gif" />
+ <img src="https://github.com/argadeva/Locohome-Mobile/raw/master/demo/search.gif" />
+ <img src="https://github.com/argadeva/Locohome-Mobile/raw/master/demo/logout.gif" />
 </p>
 
 ## How To Install
